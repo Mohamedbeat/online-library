@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model article {
+  id         Int      @id @default(autoincrement())
+  title      String   @db.VarChar(255)
+  createdAt  DateTime @default(now()) @db.Timestamp(6)
+  updatedAt  DateTime @default(now()) @db.Timestamp(0)
+  content    String?  @db.MediumText
+  authorId   Int
+  categoryId Int
+  user       user     @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Article_authorId_fkey")
+  category   category @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Article_categoryId_fkey")
+
+  @@index([authorId], map: "Article_authorId_fkey")
+  @@index([categoryId], map: "Article_categoryId_fkey")
+}
+
+model category {
+  id       Int       @id @default(autoincrement())
+  category String    @db.VarChar(255)
+  descr    String
+  article  article[]
+}
+
+model user {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  bio       String?
+  email     String    @db.VarChar(255)
+  password  String    @db.VarChar(255)
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt DateTime  @default(now()) @db.Timestamp(0)
+  article   article[]
+}
