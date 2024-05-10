@@ -5,6 +5,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getLatestArticles } from "@/utils/Lib";
+import Link from "next/link";
+
 import React from "react";
 
 async function LatestArticles() {
@@ -21,9 +23,10 @@ async function LatestArticles() {
                 <Tooltip>
                   <TooltipTrigger>
                     {" "}
-                    <div
+                    <Link
+                      href={"/articles/" + item.id}
                       key={item.id}
-                      className="group text-[16px] min-h-[100px]  cursor-pointer rounded-md transition-all duration-200 hover:bg-slate-200 p-4"
+                      className="group flex-1 text-[16px] min-h-[100px]  cursor-pointer rounded-md transition-all duration-200  p-4"
                     >
                       <div className=" group-hover:underline text-wrap max-w-[300px] font-medium">
                         {item.title}
@@ -39,7 +42,7 @@ async function LatestArticles() {
                           {item.Category.category}
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Click to read</p>

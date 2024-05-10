@@ -13,7 +13,11 @@ import {
 } from "@/components/ui/select";
 import { addArticle, getAllCategories } from "@/utils/Lib";
 import React, { useEffect, useState } from "react";
-import { Send, X } from "lucide-react";
+import { Send, X, Loader, Check } from "lucide-react";
+import { useRouter } from "next/router";
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import Link from "next/link";
 
 function NewArticlePage() {
   const [title, setTitle] = useState("");
@@ -28,7 +32,11 @@ function NewArticlePage() {
     | null
   >(null);
 
+  const [pending, setPending] = useState(false);
+  const [done, setDone] = useState(false);
+
   const [err, setErr] = useState("");
+  // const router = useRouter();
 
   const getCategories = async () => {
     const res = await getAllCategories();
@@ -40,14 +48,29 @@ function NewArticlePage() {
   };
 
   const createArticle = async () => {
+    setPending(true);
     try {
       const res = await addArticle({
         catId: categoryId,
         content,
         title,
       });
+
+      // router.push("/articles/" + res.id);
+      setPending(false);
+      setDone(true);
+      toast({
+        title: "Published successfully ",
+        // description: "There was a problem with your request.",
+        action: (
+          <ToastAction altText="Try again">
+            <Link href={"/articles/" + res.id}>Go to article page</Link>
+          </ToastAction>
+        ),
+      });
     } catch (error: any) {
       setErr(error.message);
+      setPending(false);
     }
   };
 
@@ -80,12 +103,29 @@ function NewArticlePage() {
               placeholder="title"
               className=""
             />
-            <Button
-              className="flex gap-2 justify-between"
-              onClick={createArticle}
-            >
-              <p>Publish</p> <Send height={20} width={20} />
-            </Button>
+            {done ? (
+              <Button className="flex gap-2 justify-between">
+                <p>Done</p>
+                <Check />
+              </Button>
+            ) : (
+              <Button
+                className="flex gap-2 justify-between"
+                onClick={createArticle}
+              >
+                {pending ? (
+                  <>
+                    {" "}
+                    <p>Publishing</p>
+                    <Loader className="animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    <p>Publish</p> <Send height={20} width={20} />
+                  </>
+                )}
+              </Button>
+            )}
           </div>
         </div>
         <div className="mt-4">

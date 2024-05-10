@@ -4,6 +4,7 @@ import { Item } from "@radix-ui/react-navigation-menu";
 import Link from "next/link";
 import React from "react";
 import { UserRoundCog, SquarePlus } from "lucide-react";
+import { it } from "node:test";
 
 async function ProfilePage({ params }: { params: { id: string } }) {
   // console.log(params.id);
@@ -64,13 +65,14 @@ async function ProfilePage({ params }: { params: { id: string } }) {
       <div className=" mt-4 w-full gap-3 flex  flex-col md:grid md:grid-cols-3  md:flex-row md:flex-wrap items-center justify-start px-[20px]">
         {profile?.Article.map((item) => {
           return (
-            <div
+            <Link
+              href={"/articles/" + item.id}
               key={item.id}
               className="w-full md:w-max group rounded-md p-2 px-4 hover:bg-slate-200 cursor-pointer transition-all duration-200"
             >
               <div className="group-hover:underline mt-2">{item.title}</div>
               <div className="mt-2">{item.createdAt.toLocaleDateString()}</div>
-            </div>
+            </Link>
           );
         })}
       </div>

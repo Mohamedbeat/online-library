@@ -1,15 +1,26 @@
 import { Button } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getArticleById, getSession } from "@/utils/Lib";
+import { deleteArticle, getArticleById, getSession } from "@/utils/Lib";
 import { Frown, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 
 import React from "react";
+import DeleteButton from "./deleteButton";
 
 async function ArticleSinglePage({ params }: { params: { artId: string } }) {
   const data = await getArticleById(params.artId);
@@ -22,7 +33,20 @@ async function ArticleSinglePage({ params }: { params: { artId: string } }) {
   } else {
     // console.log(data);
     const session = await getSession();
-    const isArticleOwner = session.payload.id === data.authorId;
+    let isArticleOwner;
+    if (session) {
+      isArticleOwner = session.payload.id === data.authorId;
+    } else {
+      isArticleOwner = false;
+    }
+
+    const deleteArticleFunc = async () => {
+      try {
+        await deleteArticle(params.artId);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     return (
       <div className="w-full flex flex-col items-center justify-start md:flex">
@@ -46,9 +70,32 @@ async function ArticleSinglePage({ params }: { params: { artId: string } }) {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button>
-                      <Trash />
-                    </Button>
+                    <Dialog>
+                      <DialogTrigger>
+                        <Button>
+                          <Trash />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Are you absolutely sure?</DialogTitle>
+                          <DialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete your article and remove the data from our
+                            servers.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                          <DialogClose asChild>
+                            <Button>Cancel</Button>
+                          </DialogClose>
+                          <DeleteButton
+                            deleteFunc={deleteArticle}
+                            id={params.artId}
+                          />
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Delete</p>

@@ -421,3 +421,39 @@ export async function updateArticle({
 
   return editedArticle;
 }
+
+export async function deleteArticle(id: string) {
+  const artID = parseInt(id);
+
+  const foundArticle = await prisma.article.findFirst({
+    where: {
+      id: artID,
+    },
+    include: {
+      User: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+
+  if (!foundArticle) {
+    throw new Error("Article not found");
+  }
+  const session = await getSession();
+  if (!session) {
+    throw new Error("You are not athenticated");
+  }
+  if (session.payload.id !== foundArticle.authorId) {
+    throw new Error("You are not authorized");
+  }
+
+  await prisma.article.delete({
+    where: {
+      id: artID,
+    },
+  });
+
+  return true;
+}
