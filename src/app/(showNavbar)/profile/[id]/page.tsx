@@ -13,7 +13,7 @@ async function ProfilePage({ params }: { params: { id: string } }) {
   const profile = await getProfileById(params.id);
   console.log(profile);
 
-  const isProfileOwner = session.payload.id === profile?.id;
+  const isProfileOwner = session?.payload?.id === profile?.id;
 
   return (
     <div>
@@ -47,7 +47,7 @@ async function ProfilePage({ params }: { params: { id: string } }) {
           <div className="w-1/2 border-l-[1px] p-2">
             <div className="">Articles</div>
             <div className="font-semibold text-[18px] mt-2">
-              {profile?.Article.length}
+              {profile?.article.length}
             </div>
           </div>
         </div>
@@ -55,15 +55,17 @@ async function ProfilePage({ params }: { params: { id: string } }) {
       {/* articles */}
       <div className="w-full flex justify-between font-semibold text-[18px] border-b-2 rounded-md py-3 px-[20px] md:px-0">
         <p>Articles</p>
-        <Link className="hidden md:block" href={"/articles/new"}>
-          <Button className="flex gap-2">
-            {" "}
-            <SquarePlus /> New article
-          </Button>
-        </Link>
+        {isProfileOwner && (
+          <Link className="hidden md:block" href={"/articles/new"}>
+            <Button className="flex gap-2">
+              {" "}
+              <SquarePlus /> New article
+            </Button>
+          </Link>
+        )}
       </div>
       <div className=" mt-4 w-full gap-3 flex  flex-col md:grid md:grid-cols-3  md:flex-row md:flex-wrap items-center justify-start px-[20px]">
-        {profile?.Article.map((item) => {
+        {profile?.article.map((item) => {
           return (
             <Link
               href={"/articles/" + item.id}

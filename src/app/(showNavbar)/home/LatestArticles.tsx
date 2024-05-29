@@ -32,14 +32,14 @@ async function LatestArticles() {
                         {item.title}
                       </div>
                       <div className="capitalize mt-2 text-left ">
-                        By : {item.User.name}
+                        By : {item.user.name}
                       </div>
                       <div className="mt-2 text-right md:text-left">
                         {item.createdAt.toLocaleDateString()}
                       </div>
                       <div className="hidden mt-2 w-full md:flex flex-row-reverse">
                         <div className=" mt-2 capitalize rounded-lg bg-slate-200 transition-all duration-200 group-hover:bg-slate-50 p-2">
-                          {item.Category.category}
+                          {item.category.category}
                         </div>
                       </div>
                     </Link>

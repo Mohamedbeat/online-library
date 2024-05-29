@@ -39,7 +39,7 @@ async function AllArticlesPage() {
               )}
               <div className="w-full flex flex-row-reverse">
                 <div>
-                  <h2 className="w-full  ">Written by: {item.User.name}</h2>
+                  <h2 className="w-full  ">Written by: {item.user.name}</h2>
                   <h2 className="w-full  ">
                     {item.createdAt.toLocaleString()}
                   </h2>

@@ -112,10 +112,10 @@ async function ArticleSinglePage({ params }: { params: { artId: string } }) {
               className="hidden md:flex items-center  gap-2 group"
             >
               <div className="uppercase text-[16px] md:text-[18px]  w-10  h-10 flex items-center justify-center bg-blue-200 rounded-full">
-                {data.User.name.charAt(0)}
+                {data.user.name.charAt(0)}
               </div>
               <div className="capitalize text-[16px] md:text-[18px]  group-hover:underline">
-                {data.User.name}
+                {data.user.name}
               </div>
             </Link>
             {/* article title */}
@@ -144,7 +144,7 @@ async function ArticleSinglePage({ params }: { params: { artId: string } }) {
                 href={`/profile/${data.authorId}`}
                 className="hover:underline"
               >
-                Written by:{" " + data.User.name}
+                Written by:{" " + data.user.name}
               </Link>
             </div>
           </div>

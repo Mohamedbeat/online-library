@@ -179,14 +179,14 @@ export async function getAllCategories() {
 export async function getPopularCategories() {
   const categories = await prisma.category.findMany({
     include: {
-      Article: {
+      article: {
         select: {
           id: true,
         },
       },
     },
     orderBy: {
-      Article: {
+      article: {
         _count: "desc",
       },
     },
@@ -203,7 +203,7 @@ export async function getCatById(id: string) {
 
   const res = await prisma.article.findMany({
     where: {
-      Category: {
+      category: {
         id: {
           equals: catId,
         },
@@ -211,7 +211,7 @@ export async function getCatById(id: string) {
     },
 
     include: {
-      User: {
+      user: {
         select: {
           id: true,
           name: true,
@@ -236,13 +236,13 @@ export async function getArticleById(id: string) {
     },
 
     include: {
-      User: {
+      user: {
         select: {
           id: true,
           name: true,
         },
       },
-      Category: {
+      category: {
         select: {
           id: true,
           category: true,
@@ -261,7 +261,7 @@ export async function getAllArticles() {
     },
 
     include: {
-      User: {
+      user: {
         select: {
           id: true,
           name: true,
@@ -280,13 +280,13 @@ export async function getLatestArticles() {
     },
 
     include: {
-      User: {
+      user: {
         select: {
           id: true,
           name: true,
         },
       },
-      Category: {
+      category: {
         select: {
           id: true,
           category: true,
@@ -312,7 +312,7 @@ export async function getProfileById(id: string) {
       email: true,
       createdAt: true,
       name: true,
-      Article: true,
+      article: true,
     },
     // include: {
     //   Article: {
@@ -386,12 +386,12 @@ export async function updateArticle({
       },
     },
     include: {
-      User: true,
-      Category: true,
+      user: true,
+      category: true,
     },
   });
 
-  const isArtOwner = session.payload.id === foundArticle?.User.id;
+  const isArtOwner = session.payload.id === foundArticle?.user.id;
 
   if (!isArtOwner) {
     throw new Error("You are not authorized");
@@ -430,7 +430,7 @@ export async function deleteArticle(id: string) {
       id: artID,
     },
     include: {
-      User: {
+      user: {
         select: {
           id: true,
         },

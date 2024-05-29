@@ -19,11 +19,11 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 function EditArticlepage({ params }: { params: { artId: string } }) {
   const [article, setArticle] = useState<
     | ({
-        Category: {
+        category: {
           category: string;
           id: number;
         };
-        User: {
+        user: {
           id: number;
           name: string;
         };
@@ -145,10 +145,10 @@ function EditArticlepage({ params }: { params: { artId: string } }) {
 
           <Select
             onValueChange={(str) => setCategoryId(str)}
-            defaultValue={article?.Category.id.toString()}
+            defaultValue={article?.category.id.toString()}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={article?.Category.category} />
+              <SelectValue placeholder={article?.category.category} />
             </SelectTrigger>
             <SelectContent>
               {cats &&

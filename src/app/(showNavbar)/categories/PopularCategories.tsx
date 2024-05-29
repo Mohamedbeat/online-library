@@ -46,12 +46,12 @@ async function PopularCategories() {
                       {item.category}
                     </div>
                     <div className="w-full text-right ">
-                      {item.Article.length} Articles.{" "}
+                      {item.article.length} articles.{" "}
                     </div>
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{item.Article.length} Articles.</p>
+                  <p>{item.article.length} articles.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
