@@ -15,7 +15,7 @@ model article {
   content    String?  @db.MediumText
   authorId   Int
   categoryId Int
-  reads      Int?     @default(0)
+  reads      Int      @default(0)
   user       user     @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Article_authorId_fkey")
   category   category @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Article_categoryId_fkey")
 

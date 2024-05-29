@@ -250,6 +250,35 @@ export async function getArticleById(id: string) {
       },
     },
   });
+
+  if (res) {
+    const updatedArticle = await prisma.article.update({
+      where: {
+        id: artId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        category: {
+          select: {
+            id: true,
+            category: true,
+          },
+        },
+      },
+      data: {
+        reads: res.reads + 1,
+      },
+    });
+
+    // Return the updated article
+    return updatedArticle;
+  }
+
   return res;
 }
 export async function getAllArticles() {
@@ -269,6 +298,7 @@ export async function getAllArticles() {
       },
     },
   });
+
   return res;
 }
 export async function getLatestArticles() {

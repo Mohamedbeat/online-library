@@ -31,7 +31,7 @@ async function ArticleSinglePage({ params }: { params: { artId: string } }) {
       </div>
     );
   } else {
-    // console.log(data);
+    console.log(data);
     const session = await getSession();
     let isArticleOwner;
     if (session) {
@@ -137,7 +137,7 @@ async function ArticleSinglePage({ params }: { params: { artId: string } }) {
           {/* article end */}
           <div className="flex flex-row-reverse py-2">
             <div className="flex flex-col">
-              <div>Reads : 232 person</div>
+              <div>Reads : {data.reads} person</div>
               <div>Written at : {data.createdAt.toLocaleDateString()}</div>
 
               <Link
